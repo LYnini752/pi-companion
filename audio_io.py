@@ -58,7 +58,6 @@ def device_errors(function):
 
 
 @device_errors
-
 def record(device=None, released=None, status=print):
     """Record until Enter / GPIO release / time limit. No unbounded input() wait."""
     import numpy as np

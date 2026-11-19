@@ -23,6 +23,14 @@ Development machine: macOS ARM64, Apple M4, 16 GB RAM. Python 3.10.22 in a proje
 - A clean source extraction from the SHA-256 checked llama-cpp-python 0.3.16 sdist successfully built `llama-server` on macOS. Its bundled engine revision is 4227c9be4268ac844921b90f31595f81236bd317. The original source and fresh extraction matched file-for-file; installer rerun verified the source and completed.
 - Clean project environment installed all pinned requirements successfully. Dependency resolution for Linux aarch64 / Python 3.10 with binary wheels only also succeeded. This checks availability, not execution on a Raspberry Pi.
 
+## Linux CI
+
+[Run 44559426263](https://github.com/LYnini752/pi-companion/actions/runs/44559426263) passed core checks, Ubuntu 24.04 x86_64 build, and Ubuntu 24.04 ARM64 build plus real voice inference. The ARM64 job downloaded and SHA-256 verified all model files, started its own local server, generated a synthetic question, produced a reply WAV, and stopped its child server.
+
+ARM64 cloud observation: ASR 6.337 s / LLM 0.893 s / TTS 1.269 s. Reply: `你好！我是小派，一个温和、好奇的桌面AI伙伴。` The name 小派 was still misrecognized in the transcript. These are cloud-runner observations, not Raspberry Pi measurements. No audio file is uploaded as a CI artifact.
+
+The local smoke runner also rejects an already occupied port and does not terminate that listener. Repeated runs released their own server port successfully. Build metadata now explicitly uses the pinned engine revision rather than accidentally inheriting the surrounding application repository's Git revision.
+
 ## Still unverified
 
 - Real Raspberry Pi performance, thermal behavior, supply stability, microphone/speaker compatibility, GPIO electrical wiring and systemd boot behavior.
