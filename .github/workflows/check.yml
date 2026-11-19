@@ -30,3 +30,8 @@ jobs:
           .venv/bin/python scripts/whisper_cli.py --help
           .venv/bin/piper --help
           vendor/llama.cpp/build/bin/llama-server --version
+      - name: Verify real voice chain on ARM64
+        if: matrix.os == 'ubuntu-24.04-arm'
+        run: |
+          .venv/bin/python scripts/download_models.py --include-demo-voice
+          .venv/bin/python scripts/smoke_local.py

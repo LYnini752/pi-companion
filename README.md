@@ -126,6 +126,6 @@ uv pip install --python .venv/bin/python pytest gpiozero==2.0.1
 .venv/bin/python -m pytest -q
 ```
 
-自动测试不接触麦克风和 GPIO，不下载大模型；它们不能代替树莓派实机验证。GitHub Actions 运行同一核心测试，并在 Ubuntu x86_64 与 ARM64 构建引擎。实际模型验证、已知问题见 [VALIDATION.md](VALIDATION.md)。
+核心自动测试不接触麦克风和 GPIO，不下载大模型；它们不能代替树莓派实机验证。GitHub Actions 运行同一核心测试，并在 Ubuntu x86_64 与 ARM64 构建引擎。ARM64 任务还下载固定测试模型并运行真实语音回路；这是云端 ARM 机器，仍不是树莓派实机。实际模型验证、已知问题见 [VALIDATION.md](VALIDATION.md)。
 
 代码：GPL-3.0。模型及第三方组件遵循各自许可。欢迎提交真实硬件型号、系统版本、设备信息与脱敏日志。
