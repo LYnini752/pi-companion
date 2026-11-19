@@ -1,0 +1,14 @@
+[Unit]
+Description=Pi Companion local language model
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+WorkingDirectory=/home/%i/pi-companion
+ExecStart=/bin/bash /home/%i/pi-companion/scripts/serve_llm.sh
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+.venv*/
+.local/
+models/
+vendor/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.wav
+*.flac
+*.ogg
+*.log
+.env*
+config.local.json
+WORKLOG.md
+HANDOFF.md
+.DS_Store

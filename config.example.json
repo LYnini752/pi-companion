@@ -1,0 +1,20 @@
+{
+  "model": {
+    "name": "Local companion",
+    "model": "qwen3-0.6b",
+    "base_url": "http://127.0.0.1:8080/v1",
+    "request_options": {
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    }
+  },
+  "persona": "你叫小派，是一个温和、好奇的桌面 AI 伙伴。请用中文简短回答，通常不超过三句话。不编造自己观察到的事物，也不声称执行了没有执行的动作。",
+  "language": "zh",
+  "whisper_cli": "scripts/whisper_cli.py",
+  "whisper_model": "models/ggml-base.bin",
+  "piper_cli": ".venv/bin/piper",
+  "piper_model": "models/zh_CN-huayan-medium.onnx",
+  "input_device": null,
+  "output_device": null
+}
