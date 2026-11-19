@@ -4,7 +4,7 @@ Development machine: macOS ARM64, Apple M4, 16 GB RAM. Python 3.10.22 in a proje
 
 ## Completed
 
-- 23 core tests passed: bounded history, reasoning-block handling, relative paths, stereo 48 kHz conversion, silence/NaN/length rejection, temporary-file cleanup, real subprocess boundary with deterministic fake engines, HTTP request/response protocol, redirect refusal, redacted errors and configuration constraints, source extraction checks and GPIO Zero mock-pin control flow (success/failure cleanup).
+- 25 core tests passed: bounded history, reasoning-block handling, relative paths, stereo 48 kHz conversion, silence/NaN/length rejection, temporary-file cleanup, real subprocess boundary with deterministic fake engines, HTTP request/response protocol, redirect refusal, redacted errors and configuration constraints, source extraction checks and GPIO Zero mock-pin control flow (success/failure cleanup).
 - Real Piper 1.3.0 / huayan medium inference generated a 22,050 Hz WAV of 2.519 seconds from Chinese test text. The file was generated without microphone input or speaker playback.
 - Qwen GGUF, Whisper base and Piper voice/config downloads verified against pinned SHA-256 values in `models.json`.
 
@@ -19,7 +19,7 @@ Development machine: macOS ARM64, Apple M4, 16 GB RAM. Python 3.10.22 in a proje
 - Real two-turn text memory check: after saying the user likes tennis, the follow-up returned `网球。`.
 - One-command synthetic demo (`scripts/demo.py`) generated its own short question and saved a valid reply WAV; observed ASR 1.643 s / LLM 0.189 s / TTS 1.113 s after switching the ASR worker to beam search with a general simplified-Chinese prompt.
 - **Failed longer-prompt quality case:** a 15.000-second synthetic sentence described walking and tennis. Whisper misheard `先散步` as `现三波`; Qwen did not recover the intended answer and in one run invented table tennis. Beam search did not resolve this. The pipeline completed, but semantic accuracy failed. This is a demo of interaction, not a validated factual assistant. A persona instruction cannot guarantee prevention of hallucinations.
-- Silent-audio CLI check returned a clear error and did not write a reply file.
+- Silent-audio CLI check returned a clear error and did not write a reply file. File mode also refuses to overwrite its input, including a different path that is a hard link to the same file.
 - A clean source extraction from the SHA-256 checked llama-cpp-python 0.3.16 sdist successfully built `llama-server` on macOS. Its bundled engine revision is 4227c9be4268ac844921b90f31595f81236bd317. The original source and fresh extraction matched file-for-file; installer rerun verified the source and completed.
 - Clean project environment installed all pinned requirements successfully. Dependency resolution for Linux aarch64 / Python 3.10 with binary wheels only also succeeded. This checks availability, not execution on a Raspberry Pi.
 

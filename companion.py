@@ -191,6 +191,11 @@ def main():
     args = parser.parse_args()
     if bool(args.audio) != bool(args.output):
         parser.error("--audio 和 --output 必须一起使用")
+    if args.audio:
+        source = Path(args.audio).expanduser().resolve()
+        destination = Path(args.output).expanduser().resolve()
+        if source == destination or (source.exists() and destination.exists() and source.samefile(destination)):
+            parser.error("输入和输出不能是同一个文件，请保留原始录音")
     if args.devices:
         import sounddevice as sd
         print(sd.query_devices())

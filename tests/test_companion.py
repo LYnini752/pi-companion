@@ -174,3 +174,17 @@ def test_long_chinese_history_drops_complete_oldest_turns():
     assert len(history) == 12
     with pytest.raises(ValueError, match='UTF-8'):
         reply('中' * 1500, [], CONFIG, lambda *a, **kw: pytest.fail('must not call'))
+
+
+@pytest.mark.parametrize('linked', [False, True])
+def test_file_mode_refuses_to_overwrite_source_audio(tmp_path, linked):
+    import os
+    source = tmp_path / 'question.wav'
+    source.write_bytes(b'original recording')
+    destination = tmp_path / 'alias.wav' if linked else source
+    if linked:
+        os.link(source, destination)
+    result = subprocess.run([sys.executable, str(Path(companion.__file__)), '--audio', str(source),
+                             '--output', str(destination)], capture_output=True, text=True)
+    assert result.returncode != 0 and '原始录音' in result.stderr
+    assert source.read_bytes() == b'original recording'
