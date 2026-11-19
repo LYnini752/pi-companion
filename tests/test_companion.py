@@ -160,3 +160,17 @@ def test_audio_device_failure_has_actionable_error(monkeypatch):
 def test_python_asr_adapter_does_not_need_executable_bit(tmp_path):
     script = tmp_path / 'worker.py'; script.write_text('pass'); script.chmod(0o644)
     assert doctor(dict(CONFIG, whisper_cli=str(script)))['whisper_cli'] is True
+
+
+def test_long_chinese_history_drops_complete_oldest_turns():
+    history = [{'role':'user' if i % 2 == 0 else 'assistant', 'content':'中文内容' * 80} for i in range(12)]
+    def fake(model, messages, **kwargs):
+        assert sum(len(item['content'].encode('utf-8')) for item in messages) <= 3000
+        assert messages[0]['role'] == 'system'
+        assert messages[1]['role'] == 'user'
+        return {'text':'好的'}
+    _, updated = reply('继续聊天', history, CONFIG, fake)
+    assert len(updated) < 12 and len(updated) % 2 == 0
+    assert len(history) == 12
+    with pytest.raises(ValueError, match='UTF-8'):
+        reply('中' * 1500, [], CONFIG, lambda *a, **kw: pytest.fail('must not call'))

@@ -95,6 +95,13 @@ def reply(text, history, config, call=chat):
         raise ValueError("输入需要 1–2000 个字符")
     persona = config.get("persona", "你是友善的桌面 AI 伙伴，用简洁中文回答。")
     previous = list(history[-10:])  # five previous turns + this one = six turns
+    # Conservative UTF-8 byte budget leaves room for template tokens and a reply
+    # in the default 4096-token local context; discard complete oldest pairs.
+    fixed_bytes = len(persona.encode("utf-8")) + len(text.encode("utf-8"))
+    if fixed_bytes > 3000:
+        raise ValueError("本轮输入和 persona 过长，请缩短内容（合计最多 3000 UTF-8 字节）")
+    while previous and fixed_bytes + sum(len(item["content"].encode("utf-8")) for item in previous) > 3000:
+        previous = previous[2:]
     messages = [{"role": "system", "content": persona}] + previous + [{"role": "user", "content": text}]
     response = call(config["model"], messages, max_tokens=300, temperature=0.5)
     answer = clean_answer(response["text"])

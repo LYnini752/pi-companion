@@ -12,7 +12,11 @@ jobs:
       - run: python -m pytest -q
       - run: bash -n scripts/setup.sh scripts/serve_llm.sh
   linux-build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
