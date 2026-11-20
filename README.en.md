@@ -86,3 +86,7 @@ uv pip install --python .venv/bin/python pytest gpiozero==2.0.1
 CI runs core tests, Linux x86_64/ARM64 builds, and real model inference on ARM64. Tests do not establish electrical or audio-device compatibility.
 
 Project code: GPL-3.0. Third-party software and separately downloaded models retain their own licenses; see [THIRD_PARTY.md](THIRD_PARTY.md).
+
+## Included samples
+
+See [sample data and attribution](examples/README.md) for ready-to-use inputs, offline previews, licenses, and limitations. No API credentials are included.
